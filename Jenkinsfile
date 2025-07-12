@@ -1,9 +1,10 @@
+pipeline {
     agent any
     stages {
         stage('Maven Version') {
             steps {
-                sh "echo Print Maven Version"
-                sh "mvn -version"
+                sh 'echo Print Maven Version'
+                sh 'mvn -version'
                 sh "echo Sleep-Time - ${params.SLEEP_TIME}, Port - ${params.APP_PORT}, Branch - ${params.BRANCH_NAME}"
             }
         }
@@ -16,21 +17,22 @@
         stage('Test') {
             steps {
                 sh 'mvn test'
-                junit(testResults: 'target/surefire-reports/TEST-*.xml',
-                      keepProperties: true,
-                      keepTestNames: true)
+                junit(testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true)
             }
         }
         stage('Local Deployment') {
             steps {
-                sh "java -jar target/hello-demo-*.jar > /dev/null &"
+                sh 'java -jar target/hello-demo-*.jar > /dev/null &'
             }
         }
+        
+
         stage('Integration Testing') {
             steps {
                 sh "sleep ${params.SLEEP_TIME}"
-                sh "curl -s http://localhost:${params.APP_PORT}/hello"
+                sh 'curl -s http://localhost:6767/hello'
             }
         }
+    
     }
 }
