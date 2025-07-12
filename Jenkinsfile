@@ -15,9 +15,12 @@ pipeline {
             }
         }
         stage('Kubernetes Deployment') {
+        
             steps {
                 sh 'echo "Deploy to Kubernetes using [GitOps with ArgoCD](https://learn.kodekloud.com/user/courses/gitops-with-argocd)"'
+                }
             }
+
         }
         stage('Integration Testing') {
             steps {
